@@ -1,5 +1,6 @@
 # mePlayer
-![](http://img.shields.io/npm/v/mePlayer.svg)
+[![npm](https://img.shields.io/npm/v/meplayer.svg)]()
+
 一款简洁的HTML5音乐播放器。内置两套主题，可在运行时一键切换
 ![](demo/toggleTheme.gif)
 
