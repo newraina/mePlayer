@@ -6,17 +6,20 @@
 ### 默认主题
 - 有歌词时滚动显示歌词，无歌词时显示模拟频谱动画
 - 播放中鼠标悬停在界面上滑动滚轮可调节音量，音量大小用音量条表示
+
 ![](demo/default-theme.gif)
 ![](demo/default-theme-nolrc.gif)
 
 ### 迷你主题
 - 去掉了大部分控件，仅保留音量调节和播放暂停按钮
 - 播放中鼠标悬停在界面上滑动滚轮可调节音量，音量大小用音量图标透明度表示
+
 ![](demo/mini-theme.gif)
 
 ## 使用方法
 - 引入`meplayer.min.css`、`meplayer.min.js`以及`fonts`文件夹
 - 初始化
+
   ```javascript
 mePlayer({
     theme: '可选，不指定时为默认主题，值为"mini"时为迷你版主题',
