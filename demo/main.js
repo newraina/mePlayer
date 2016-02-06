@@ -8,3 +8,7 @@ mePlayer({
     },
     target: '.music'
 });
+
+document.querySelector('button').addEventListener('click', function () {
+    mePlayer.toggleTheme();
+});

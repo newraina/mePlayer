@@ -12,7 +12,25 @@ body {
     background: #E6EAF1;
 }
 
-.music {
+.container {
     width: 400px;
     margin: 120px auto 0;
+}
+
+button {
+    display: block;
+    margin: 50px auto;
+    color: #777;
+    background-color: #FFF;
+    font-size: 14px;
+    text-align: center;
+    line-height: 30px;
+    height: 30px;
+    width: 120px;
+    appearance: none;
+    border: none;
+}
+
+button:focus {
+    outline: none;
 }
