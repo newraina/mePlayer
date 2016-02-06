@@ -19,7 +19,7 @@
 ![](demo/mini-theme.gif)
 
 ## 使用方法
-- 引入`meplayer.min.css`、`meplayer.min.js`以及`fonts`文件夹
+- 引入`dist`文件夹中相关文件，或者`npm install meplayer`
 - 初始化
 
   ```javascript
