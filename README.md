@@ -33,9 +33,9 @@ mePlayer({
     target: '放置播放器的DOM容器，如: .music'
 });
   ```
-- 运行中可使用`meplayer.play()`和`meplayer.pause`手动播放暂停
+- 运行中可使用`meplayer.play()`和`meplayer.pause()`手动播放暂停
 - `meplayer.toggleTheme()`可一键切换主题
 
 ## 致谢
 - 制作过程中参考了[APlayer](https://github.com/DIYgod/APlayer)的部分代码
-- UI设计参考了[bottom-music-player](http://www.materialup.com/posts/a-or-b-bottom-music-player-dashboard)
+- UI设计参考了[bottom-music-player](https://dribbble.com/shots/2365362-A-or-B-Bottom-music-player-dashboard)
