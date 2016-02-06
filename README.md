@@ -1,10 +1,10 @@
 # mePlayer
 [![npm](https://img.shields.io/npm/v/meplayer.svg)]()
 
-一款简洁的HTML5音乐播放器。内置两套主题，可在运行时一键切换
+一款简洁的HTML5音乐播放器。内置两套主题，可在运行时一键切换，[点我在线预览](newraina.github.io/mePlayer/demo)
 ![](demo/toggleTheme.gif)
 
-## 主题说明 | [在线预览](newraina.github.io/mePlayer/demo)
+## 主题说明
 ### 默认主题
 - 有歌词时滚动显示歌词，无歌词时显示模拟频谱动画
 - 播放中鼠标悬停在界面上滑动滚轮可调节音量，音量大小用音量条表示
