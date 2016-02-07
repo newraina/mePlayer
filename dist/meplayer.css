@@ -1,4 +1,4 @@
-/*UI设计参考：http://www.materialup.com/posts/a-or-b-bottom-music-player-dashboard*/
+/*UI设计参考：https://dribbble.com/shots/2365362-A-or-B-Bottom-music-player-dashboard*/
 
 .meplayer-container {
     font-family: Helvetica, Tahoma, Arial, STXihei, '华文细黑', 'Microsoft YaHei', '微软雅黑', SimSun, '宋体', Heiti, '黑体', sans-serif;
@@ -341,8 +341,8 @@
 }
 
 .meplayer-container .meplayer-control-play .icon-play {
-    -webkit-transform: translateX(0);
-            transform: translateX(0);
+    -webkit-transform: translateX(2px);
+            transform: translateX(2px);
 
     opacity: 1;
 }
@@ -547,8 +547,8 @@
 }
 
 .meplayer-container-mini .meplayer-control-play .icon-play {
-    -webkit-transform: translateX(0);
-    transform: translateX(0);
+    -webkit-transform: translateX(4px);
+    transform: translateX(4px);
     opacity: 1;
 }
 

@@ -341,8 +341,8 @@
 }
 
 .meplayer-container .meplayer-control-play .icon-play {
-    -webkit-transform: translateX(0);
-            transform: translateX(0);
+    -webkit-transform: translateX(2px);
+            transform: translateX(2px);
 
     opacity: 1;
 }

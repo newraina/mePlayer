@@ -46,8 +46,8 @@
 }
 
 .meplayer-container-mini .meplayer-control-play .icon-play {
-    -webkit-transform: translateX(0);
-    transform: translateX(0);
+    -webkit-transform: translateX(4px);
+    transform: translateX(4px);
     opacity: 1;
 }
 
