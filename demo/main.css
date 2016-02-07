@@ -17,6 +17,14 @@ body {
     margin: 120px auto 0;
 }
 
+.meplayer-container-mini {
+    margin: 0 auto;
+}
+
+.meplayer-container {
+    margin: 0 auto;
+}
+
 button {
     display: block;
     margin: 50px auto;
