@@ -271,6 +271,10 @@
 	    }
 	};
 
+	if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+	    module.exports = root.mePlayer;
+	}
+
 	function getTarget(option) {
 	    if (typeof option === 'string') {
 	        return document.querySelector(option);
