@@ -1,6 +1,6 @@
 {
   "name": "meplayer",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "a simple and reliable HTML5 music player",
   "main": "dist/meplayer.min.js",
   "scripts": {
