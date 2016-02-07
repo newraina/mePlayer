@@ -44,7 +44,9 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 	var _constants = __webpack_require__(1);
 
@@ -62,7 +64,9 @@
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-	window.mePlayer = function (options) {
+	var root = (typeof window === 'undefined' ? 'undefined' : _typeof(window)) == 'object' && window.window === window ? window : (typeof global === 'undefined' ? 'undefined' : _typeof(global)) == 'object' && global.global === global ? global : undefined;
+
+	root.mePlayer = function (options) {
 	    // 检查必填选项
 	    if (!(options.music && options.music.src)) {
 	        console.error('必须指定音乐地址哦~');
@@ -107,7 +111,7 @@
 	    eventInit();
 
 	    // 重定义meplayer
-	    window.mePlayer = {
+	    root.mePlayer = {
 	        play: play,
 	        pause: pause,
 	        toggleTheme: toggleTheme
@@ -276,6 +280,7 @@
 	        return document.querySelector('.meplayer');
 	    }
 	}
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
 /* 1 */

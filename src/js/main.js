@@ -3,7 +3,10 @@ import * as lyric from './lyric';
 import * as utils from './utils';
 import * as spectrum from './spectrum';
 
-window.mePlayer = function (options) {
+var root = typeof window == 'object' && window.window === window ? window :
+    typeof global == 'object' && global.global === global ? global : this;
+
+root.mePlayer = function (options) {
     // 检查必填选项
     if (!(options.music && options.music.src)) {
         console.error('必须指定音乐地址哦~');
@@ -67,7 +70,7 @@ window.mePlayer = function (options) {
     eventInit();
 
     // 重定义meplayer
-    window.mePlayer = {
+    root.mePlayer = {
         play       : play,
         pause      : pause,
         toggleTheme: toggleTheme
