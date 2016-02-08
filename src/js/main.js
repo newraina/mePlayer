@@ -15,9 +15,9 @@ root.mePlayer = function (options) {
 
     var musicConf         = options.music,
         target            = getTarget(options.target),
-        theme             = options.theme ? options.theme : THEME_DEFAULT,
+        theme             = options.theme || THEME_DEFAULT,
         hasLrc            = musicConf.lrc ? true : false,
-        coverSrc          = musicConf.cover ? musicConf.cover : 'https://unsplash.it/78/?random',
+        coverSrc          = musicConf.cover || 'https://unsplash.it/78/?random',
 
         currentThemeClass = theme === THEME_DEFAULT ? 'meplayer-container' : 'meplayer-container-mini',
         containerClass    = `${currentThemeClass} ${hasLrc ? 'meplayer-haslrc' : ''} meplayer-isloading`,
@@ -60,8 +60,8 @@ root.mePlayer = function (options) {
     audio.preload = 'auto';
 
     if (hasLrc) {
-        lyric.parse(musicConf.lrc);
-        lyric.render(lyricArea);
+        lyric.parse(musicConf.lrc)
+             .renderTo(lyricArea);
     } else {
         // 频谱动画初始化
         spectrum.init(canvas);

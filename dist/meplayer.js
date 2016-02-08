@@ -75,9 +75,9 @@
 
 	    var musicConf = options.music,
 	        target = getTarget(options.target),
-	        theme = options.theme ? options.theme : _constants.THEME_DEFAULT,
+	        theme = options.theme || _constants.THEME_DEFAULT,
 	        hasLrc = musicConf.lrc ? true : false,
-	        coverSrc = musicConf.cover ? musicConf.cover : 'https://unsplash.it/78/?random',
+	        coverSrc = musicConf.cover || 'https://unsplash.it/78/?random',
 	        currentThemeClass = theme === _constants.THEME_DEFAULT ? 'meplayer-container' : 'meplayer-container-mini',
 	        containerClass = currentThemeClass + ' ' + (hasLrc ? 'meplayer-haslrc' : '') + ' meplayer-isloading',
 	        playerHTMLContent = '<div class="' + containerClass + '">\n                             <audio src=' + musicConf.src + '></audio>\n                             <div class="meplayer-info">\n                             <div class="meplayer-info-cover"><img src=' + coverSrc + ' alt="cd-cover"></div>\n                             <div class="meplayer-meta">\n                             <div class="meplayer-meta-title">' + musicConf.title + '</div>\n                             <div class="meplayer-meta-author">' + musicConf.author + '</div>\n                             <div class="meplayer-meta-time-tick"><span class="meplayer-meta-time-tick-text"></span></div>\n                             </div>\n                             </div>\n                             <canvas class="meplayer-spectrum"></canvas>\n                             <div class="meplayer-lyric"><div class="meplayer-lyric-area"></div></div>\n                             <div class="meplayer-control"><div class="meplayer-control-play"><i class="icon-play"></i><i class="icon-pause"></i></div></div>\n                             <div class="meplayer-volume-bg"><div class="meplayer-volume"><i class="icon-volume"></i><div class="meplayer-volume-progress"></div></div></div>\n                             <div class="meplayer-duration"><i class="icon-clock"></i><span class="meplayer-duration-text">loading</span></div>\n                             <div class="meplayer-loadingsign"><i class="icon-spin animate-spin"></i>loading</div>\n                             <div class="meplayer-timeline-bg"><div class="meplayer-timeline"><div class="meplayer-timeline-passed"></div></div></div>\n                             </div>';
@@ -101,8 +101,7 @@
 	    audio.preload = 'auto';
 
 	    if (hasLrc) {
-	        lyric.parse(musicConf.lrc);
-	        lyric.render(lyricArea);
+	        lyric.parse(musicConf.lrc).renderTo(lyricArea);
 	    } else {
 	        // 频谱动画初始化
 	        spectrum.init(canvas);
@@ -318,7 +317,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.currentIndex = exports.render = exports.parse = undefined;
+	exports.currentIndex = exports.renderTo = exports.parse = undefined;
 
 	var _constants = __webpack_require__(1);
 
@@ -356,11 +355,11 @@
 	    });
 
 	    lyrics = lrc;
-	    return lrc;
+	    return this;
 	}
 
 	// 歌词文本解析成DOM结构
-	function render(target) {
+	function renderTo(target) {
 	    if (!lyrics) {
 	        console.error('未指定歌词文本！');
 	        return;
@@ -372,6 +371,7 @@
 	    target.innerHTML = lyricHTML;
 	    target.querySelector('p').className = _constants.LYRIC_CURRENT_CLASS;
 	    target.querySelector('p + p').className = _constants.LYRIC_NEXT_CLASS;
+	    return this;
 	}
 
 	function currentIndex(time) {
@@ -385,7 +385,7 @@
 	}
 
 	exports.parse = parse;
-	exports.render = render;
+	exports.renderTo = renderTo;
 	exports.currentIndex = currentIndex;
 
 /***/ },

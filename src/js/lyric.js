@@ -34,11 +34,11 @@ function parse(text) {
     });
 
     lyrics = lrc;
-    return lrc;
+    return this;
 }
 
 // 歌词文本解析成DOM结构
-function render(target) {
+function renderTo(target) {
     if (!lyrics) {
         console.error('未指定歌词文本！');
         return;
@@ -50,6 +50,7 @@ function render(target) {
     target.innerHTML                        = lyricHTML;
     target.querySelector('p').className     = LYRIC_CURRENT_CLASS;
     target.querySelector('p + p').className = LYRIC_NEXT_CLASS;
+    return this;
 }
 
 function currentIndex(time) {
@@ -62,4 +63,4 @@ function currentIndex(time) {
     return i;
 }
 
-export {parse, render, currentIndex};
+export {parse, renderTo, currentIndex};
