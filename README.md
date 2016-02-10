@@ -1,5 +1,5 @@
 # mePlayer
-[![npm](https://img.shields.io/npm/v/meplayer.svg)]() [![npm](https://img.shields.io/npm/dt/meplayer.svg)]()
+[![npm](https://img.shields.io/npm/v/meplayer.svg)]() [![npm](https://img.shields.io/npm/dt/meplayer.svg)]() [![Code Climate](https://codeclimate.com/github/newraina/mePlayer/badges/gpa.svg)](https://codeclimate.com/github/newraina/mePlayer)
 
 一款简洁的HTML5音乐播放器。内置两套主题，可在运行时一键切换，[点我在线预览](http://newraina.github.io/mePlayer/demo)
 ![](demo/toggleTheme.gif)
