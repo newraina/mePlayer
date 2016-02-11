@@ -20,8 +20,7 @@ ratings:
     - "**.rb"
 exclude_paths:
 - dist/
---exclude-exts=.min.css
---ignore=adjoining-classes,box-model,ids,order-alphabetical,unqualified-attributes
+
 ecmaFeatures:
   modules: true
 

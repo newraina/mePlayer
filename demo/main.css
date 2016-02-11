@@ -38,7 +38,3 @@ button {
     appearance: none;
     border: none;
 }
-
-button:focus {
-    outline: none;
-}
