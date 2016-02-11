@@ -1,0 +1,9 @@
+engines:
+  # ... CONFIG CONTENT ...
+  csslint:
+    enabled: true
+    # ... CONFIG CONTENT ...
+    checks:
+      compatible-vendor-prefixes:
+        enabled: false
+# ... CONFIG CONTENT ...
