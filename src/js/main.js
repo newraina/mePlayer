@@ -2,6 +2,7 @@ import {THEME_DEFAULT, THEME_MINI} from './constants';
 import * as lyric from './lyric';
 import * as utils from './utils';
 import * as spectrum from './spectrum';
+import * as selector from './selector';
 
 var root = typeof window == 'object' && window.window === window ? window :
     typeof global == 'object' && global.global === global ? global : this;
@@ -14,7 +15,7 @@ root.mePlayer = function (options) {
     }
 
     var musicConf         = options.music,
-        target            = getTarget(options.target),
+        target            = selector.$(options.target) || document.querySelector('.meplayer'),
         theme             = options.theme || THEME_DEFAULT,
         hasLrc            = musicConf.lrc ? true : false,
         coverSrc          = musicConf.cover || 'https://unsplash.it/78/?random',
@@ -23,7 +24,7 @@ root.mePlayer = function (options) {
         containerClass    = `${currentThemeClass} ${hasLrc ? 'meplayer-haslrc' : ''} meplayer-isloading`,
 
         playerHTMLContent = `<div class="${containerClass}">
-                             <audio src=${musicConf.src}></audio>
+                             <audio src=${musicConf.src} preload="auto"></audio>
                              <div class="meplayer-info">
                              <div class="meplayer-info-cover"><img src=${coverSrc} alt="cd-cover"></div>
                              <div class="meplayer-meta">
@@ -44,24 +45,15 @@ root.mePlayer = function (options) {
     target.innerHTML = playerHTMLContent;
 
     var meplayerContainer = target.querySelector(`.${currentThemeClass}`),
-        audio             = target.querySelector('audio'),
-        playBtn           = target.querySelector('.meplayer-control-play'),
-        timeTick          = target.querySelector('.meplayer-meta-time-tick-text'),
-        timeCount         = target.querySelector('.meplayer-duration'),
-        timeLine          = target.querySelector('.meplayer-timeline'),
-        timePassed        = target.querySelector('.meplayer-timeline-passed'),
-        volumeArea        = target.querySelector('.meplayer-volume'),
-        volumeProgress    = target.querySelector('.meplayer-volume-progress'),
-        lyricArea         = target.querySelector('.meplayer-lyric-area'),
-        canvas            = target.querySelector('.meplayer-spectrum'),
-        duration;
+        [audio, playBtn, timeTick, timeCount, timeLine, timePassed, volumeArea, volumeProgress, lyricArea, canvas] = selector.init(meplayerContainer)
+            .select(['audio', '.meplayer-control-play', '.meplayer-meta-time-tick-text', '.meplayer-duration', '.meplayer-timeline',
+                '.meplayer-timeline-passed', '.meplayer-volume', '.meplayer-volume-progress', '.meplayer-lyric-area', '.meplayer-spectrum']),
 
-    // 设置在页面加载后立即加载音频
-    audio.preload = 'auto';
+        duration;
 
     if (hasLrc) {
         lyric.parse(musicConf.lrc)
-             .renderTo(lyricArea);
+            .renderTo(lyricArea);
     } else {
         // 频谱动画初始化
         spectrum.init(canvas);
@@ -77,116 +69,122 @@ root.mePlayer = function (options) {
     };
 
 
-    /*
-     * 工具函数
-     * */
-
     // 给播放器绑定各种事件
     function eventInit() {
-        audio.addEventListener('ended', function () {
-            utils.removeClass(meplayerContainer, 'meplayer-isplaying');
-        });
-
-        audio.addEventListener('canplaythrough', function () {
-            duration = this.duration;
-            setTimeout(function () {
-                utils.removeClass(meplayerContainer, 'meplayer-isloading');
-                timeCount.querySelector('.meplayer-duration-text').innerText = utils.parseSec(duration.toFixed(0));
-            }, 1000);
-        });
-
-        audio.addEventListener('durationchange', function () {
-            duration = this.duration;
-        });
-
-        audio.addEventListener('timeupdate', function () {
-            var curTime       = (audio.currentTime).toFixed(0);
-            var curTimeForLrc = (audio.currentTime).toFixed(3);
-            var playPercent   = 100 * (curTime / duration);
-
-            timePassed.style.width = playPercent.toFixed(2) + '%';
-            timeTick.innerText     = utils.parseSec(curTime);
-
-            if (hasLrc && theme === THEME_DEFAULT) {
-                var tempLrcIndex    = lyric.currentIndex(curTimeForLrc);
-                var tempLrcLines    = lyricArea.querySelectorAll('p');
-                var tempLrcLinePre  = tempLrcLines[tempLrcIndex - 1];
-                var tempLrcLine     = tempLrcLines[tempLrcIndex];
-                var tempLrcLineNext = tempLrcLines[tempLrcIndex + 1];
-
-                if (!tempLrcLine.className.includes('meplayer-lyric-current')) {
-                    utils.removeClass(lyricArea.querySelector('.meplayer-lyric-current'), 'meplayer-lyric-current');
-                    if (lyricArea.querySelector('.meplayer-lyric-pre')) {
-                        utils.removeClass(lyricArea.querySelector('.meplayer-lyric-pre'), 'meplayer-lyric-pre');
-                    }
-                    if (lyricArea.querySelector('.meplayer-lyric-next')) {
-                        utils.removeClass(lyricArea.querySelector('.meplayer-lyric-next'), 'meplayer-lyric-next');
-                    }
-                    utils.addClass(tempLrcLine, 'meplayer-lyric-current');
-                    if (tempLrcLinePre) {
-                        utils.addClass(tempLrcLinePre, 'meplayer-lyric-pre');
-                    }
-                    if (tempLrcLineNext) {
-                        utils.addClass(tempLrcLineNext, 'meplayer-lyric-next');
-                    }
-
-                    lyricArea.style.webkitTransform = 'translateY(-' + 20 * tempLrcIndex + 'px)';
-                    lyricArea.style.transform       = 'translateY(-' + 20 * tempLrcIndex + 'px)';
-                }
-            }
-        });
-
-        var _handleMouseWheel;
-        playBtn.addEventListener('click', function () {
-            if (audio.paused) {
-                audio.play();
-                if (theme === THEME_DEFAULT && !hasLrc) {
-                    spectrum.draw();
-                }
-                // 播放状态中可以用滑轮调节音量
-                meplayerContainer.addEventListener('mousewheel', function handleMouseWheel() {
-                    var timer         = null;
-                    var step          = 0.05;
-                    _handleMouseWheel = function (event) {
-                        if (timer) {
-                            clearTimeout(timer);
-                        }
-                        if (!meplayerContainer.className.includes('meplayer-adjusting-volume')) {
-                            utils.addClass(meplayerContainer, 'meplayer-adjusting-volume');
-                        }
-                        if (event.wheelDeltaY < 0 && audio.volume > step) {
-                            audio.volume -= step;
-                        }
-                        if (event.wheelDeltaY > 0 && audio.volume < 1 - step) {
-                            audio.volume += step;
-                        }
-                        if (theme === THEME_DEFAULT) {
-                            volumeProgress.style.width = audio.volume * 100 + '%';
-                        } else {
-                            volumeArea.querySelector('i').style.opacity = audio.volume;
-                        }
-                        event.preventDefault();
-
-                        timer = setTimeout(function () {
-                            utils.removeClass(meplayerContainer, 'meplayer-adjusting-volume');
-                        }, 1000);
-                    };
-                    return _handleMouseWheel;
-                }());
-            } else {
-                audio.pause();
-                spectrum.stop();
-                meplayerContainer.removeEventListener('mousewheel', _handleMouseWheel);
-            }
-            utils.toggleClass(meplayerContainer, 'meplayer-isplaying');
-        });
-
-        timeLine.addEventListener('click', function (event) {
-            var clickPercent       = (event.pageX - utils.getAbsLeft(this)) / this.offsetWidth;
-            timePassed.style.width = clickPercent * 100 + '%';
-            audio.currentTime      = (clickPercent * duration).toFixed(0);
-        });
+        audio.addEventListener('ended', handleAudioEnd);
+        audio.addEventListener('canplaythrough', handleCanPlayThrough);
+        audio.addEventListener('durationchange', handleDurationChange);
+        audio.addEventListener('timeupdate', handleTimeUpdate);
+        playBtn.addEventListener('click', handlePlayClick);
+        timeLine.addEventListener('click', handleTimeLineClick);
     }
+
+
+    function handleAudioEnd() {
+        utils.removeClass(meplayerContainer, 'meplayer-isplaying');
+    }
+
+    function handleCanPlayThrough() {
+        duration = this.duration;
+        setTimeout(function () {
+            utils.removeClass(meplayerContainer, 'meplayer-isloading');
+            timeCount.querySelector('.meplayer-duration-text').innerText = utils.parseSec(duration.toFixed(0));
+        }, 1000);
+    }
+
+    function handleDurationChange() {
+        duration = this.duration;
+    }
+
+    function handleTimeUpdate() {
+        var curTime       = (audio.currentTime).toFixed(0);
+        var curTimeForLrc = (audio.currentTime).toFixed(3);
+        var playPercent   = 100 * (curTime / duration);
+
+        timePassed.style.width = playPercent.toFixed(2) + '%';
+        timeTick.innerText     = utils.parseSec(curTime);
+
+        if (hasLrc && theme === THEME_DEFAULT) {
+            var tempLrcIndex    = lyric.currentIndex(curTimeForLrc);
+            var tempLrcLines    = lyricArea.querySelectorAll('p');
+            var tempLrcLinePre  = tempLrcLines[tempLrcIndex - 1];
+            var tempLrcLine     = tempLrcLines[tempLrcIndex];
+            var tempLrcLineNext = tempLrcLines[tempLrcIndex + 1];
+
+            if (!tempLrcLine.className.includes('meplayer-lyric-current')) {
+                utils.removeClass(lyricArea.querySelector('.meplayer-lyric-current'), 'meplayer-lyric-current');
+                if (lyricArea.querySelector('.meplayer-lyric-pre')) {
+                    utils.removeClass(lyricArea.querySelector('.meplayer-lyric-pre'), 'meplayer-lyric-pre');
+                }
+                if (lyricArea.querySelector('.meplayer-lyric-next')) {
+                    utils.removeClass(lyricArea.querySelector('.meplayer-lyric-next'), 'meplayer-lyric-next');
+                }
+                utils.addClass(tempLrcLine, 'meplayer-lyric-current');
+                if (tempLrcLinePre) {
+                    utils.addClass(tempLrcLinePre, 'meplayer-lyric-pre');
+                }
+                if (tempLrcLineNext) {
+                    utils.addClass(tempLrcLineNext, 'meplayer-lyric-next');
+                }
+
+                lyricArea.style.webkitTransform = 'translateY(-' + 20 * tempLrcIndex + 'px)';
+                lyricArea.style.transform       = 'translateY(-' + 20 * tempLrcIndex + 'px)';
+            }
+        }
+    }
+
+    function handlePlayClick() {
+        var _handleMouseWheel;
+
+        if (audio.paused) {
+            audio.play();
+            if (theme === THEME_DEFAULT && !hasLrc) {
+                spectrum.draw();
+            }
+            // 播放状态中可以用滑轮调节音量
+            meplayerContainer.addEventListener('mousewheel', function handleMouseWheel() {
+                var timer         = null;
+                var step          = 0.05;
+                _handleMouseWheel = function (event) {
+                    if (timer) {
+                        clearTimeout(timer);
+                    }
+                    if (!meplayerContainer.className.includes('meplayer-adjusting-volume')) {
+                        utils.addClass(meplayerContainer, 'meplayer-adjusting-volume');
+                    }
+                    if (event.wheelDeltaY < 0 && audio.volume > step) {
+                        audio.volume -= step;
+                    }
+                    if (event.wheelDeltaY > 0 && audio.volume < 1 - step) {
+                        audio.volume += step;
+                    }
+                    if (theme === THEME_DEFAULT) {
+                        volumeProgress.style.width = audio.volume * 100 + '%';
+                    } else {
+                        volumeArea.querySelector('i').style.opacity = audio.volume;
+                    }
+                    event.preventDefault();
+
+                    timer = setTimeout(function () {
+                        utils.removeClass(meplayerContainer, 'meplayer-adjusting-volume');
+                    }, 1000);
+                };
+                return _handleMouseWheel;
+            }());
+        } else {
+            audio.pause();
+            spectrum.stop();
+            meplayerContainer.removeEventListener('mousewheel', _handleMouseWheel);
+        }
+        utils.toggleClass(meplayerContainer, 'meplayer-isplaying');
+    }
+
+    function handleTimeLineClick() {
+        var clickPercent       = (event.pageX - utils.getAbsLeft(this)) / this.offsetWidth;
+        timePassed.style.width = clickPercent * 100 + '%';
+        audio.currentTime      = (clickPercent * duration).toFixed(0);
+    }
+
 
     function play() {
         if (audio.paused) {
@@ -233,14 +231,4 @@ root.mePlayer = function (options) {
 
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
     module.exports = root.mePlayer;
-}
-
-function getTarget(option) {
-    if (typeof option === 'string') {
-        return document.querySelector(option);
-    } else if (option.toString().includes('HTMLDivElement')) {
-        return option;
-    } else {
-        return document.querySelector('.meplayer');
-    }
 }

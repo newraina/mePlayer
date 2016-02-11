@@ -46,6 +46,8 @@
 
 	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
 
+	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 	var _constants = __webpack_require__(1);
@@ -62,6 +64,10 @@
 
 	var spectrum = _interopRequireWildcard(_spectrum);
 
+	var _selector = __webpack_require__(5);
+
+	var selector = _interopRequireWildcard(_selector);
+
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	var root = (typeof window === 'undefined' ? 'undefined' : _typeof(window)) == 'object' && window.window === window ? window : (typeof global === 'undefined' ? 'undefined' : _typeof(global)) == 'object' && global.global === global ? global : undefined;
@@ -74,31 +80,34 @@
 	    }
 
 	    var musicConf = options.music,
-	        target = getTarget(options.target),
+	        target = selector.$(options.target) || document.querySelector('.meplayer'),
 	        theme = options.theme || _constants.THEME_DEFAULT,
 	        hasLrc = musicConf.lrc ? true : false,
 	        coverSrc = musicConf.cover || 'https://unsplash.it/78/?random',
 	        currentThemeClass = theme === _constants.THEME_DEFAULT ? 'meplayer-container' : 'meplayer-container-mini',
 	        containerClass = currentThemeClass + ' ' + (hasLrc ? 'meplayer-haslrc' : '') + ' meplayer-isloading',
-	        playerHTMLContent = '<div class="' + containerClass + '">\n                             <audio src=' + musicConf.src + '></audio>\n                             <div class="meplayer-info">\n                             <div class="meplayer-info-cover"><img src=' + coverSrc + ' alt="cd-cover"></div>\n                             <div class="meplayer-meta">\n                             <div class="meplayer-meta-title">' + musicConf.title + '</div>\n                             <div class="meplayer-meta-author">' + musicConf.author + '</div>\n                             <div class="meplayer-meta-time-tick"><span class="meplayer-meta-time-tick-text"></span></div>\n                             </div>\n                             </div>\n                             <canvas class="meplayer-spectrum"></canvas>\n                             <div class="meplayer-lyric"><div class="meplayer-lyric-area"></div></div>\n                             <div class="meplayer-control"><div class="meplayer-control-play"><i class="icon-play"></i><i class="icon-pause"></i></div></div>\n                             <div class="meplayer-volume-bg"><div class="meplayer-volume"><i class="icon-volume"></i><div class="meplayer-volume-progress"></div></div></div>\n                             <div class="meplayer-duration"><i class="icon-clock"></i><span class="meplayer-duration-text">loading</span></div>\n                             <div class="meplayer-loadingsign"><i class="icon-spin animate-spin"></i>loading</div>\n                             <div class="meplayer-timeline-bg"><div class="meplayer-timeline"><div class="meplayer-timeline-passed"></div></div></div>\n                             </div>';
+	        playerHTMLContent = '<div class="' + containerClass + '">\n                             <audio src=' + musicConf.src + ' preload="auto"></audio>\n                             <div class="meplayer-info">\n                             <div class="meplayer-info-cover"><img src=' + coverSrc + ' alt="cd-cover"></div>\n                             <div class="meplayer-meta">\n                             <div class="meplayer-meta-title">' + musicConf.title + '</div>\n                             <div class="meplayer-meta-author">' + musicConf.author + '</div>\n                             <div class="meplayer-meta-time-tick"><span class="meplayer-meta-time-tick-text"></span></div>\n                             </div>\n                             </div>\n                             <canvas class="meplayer-spectrum"></canvas>\n                             <div class="meplayer-lyric"><div class="meplayer-lyric-area"></div></div>\n                             <div class="meplayer-control"><div class="meplayer-control-play"><i class="icon-play"></i><i class="icon-pause"></i></div></div>\n                             <div class="meplayer-volume-bg"><div class="meplayer-volume"><i class="icon-volume"></i><div class="meplayer-volume-progress"></div></div></div>\n                             <div class="meplayer-duration"><i class="icon-clock"></i><span class="meplayer-duration-text">loading</span></div>\n                             <div class="meplayer-loadingsign"><i class="icon-spin animate-spin"></i>loading</div>\n                             <div class="meplayer-timeline-bg"><div class="meplayer-timeline"><div class="meplayer-timeline-passed"></div></div></div>\n                             </div>';
 
 	    target.innerHTML = playerHTMLContent;
 
-	    var meplayerContainer = target.querySelector('.' + currentThemeClass),
-	        audio = target.querySelector('audio'),
-	        playBtn = target.querySelector('.meplayer-control-play'),
-	        timeTick = target.querySelector('.meplayer-meta-time-tick-text'),
-	        timeCount = target.querySelector('.meplayer-duration'),
-	        timeLine = target.querySelector('.meplayer-timeline'),
-	        timePassed = target.querySelector('.meplayer-timeline-passed'),
-	        volumeArea = target.querySelector('.meplayer-volume'),
-	        volumeProgress = target.querySelector('.meplayer-volume-progress'),
-	        lyricArea = target.querySelector('.meplayer-lyric-area'),
-	        canvas = target.querySelector('.meplayer-spectrum'),
-	        duration;
+	    var meplayerContainer = target.querySelector('.' + currentThemeClass);
 
-	    // 设置在页面加载后立即加载音频
-	    audio.preload = 'auto';
+	    var _selector$init$select = selector.init(meplayerContainer).select(['audio', '.meplayer-control-play', '.meplayer-meta-time-tick-text', '.meplayer-duration', '.meplayer-timeline', '.meplayer-timeline-passed', '.meplayer-volume', '.meplayer-volume-progress', '.meplayer-lyric-area', '.meplayer-spectrum']);
+
+	    var _selector$init$select2 = _slicedToArray(_selector$init$select, 10);
+
+	    var audio = _selector$init$select2[0];
+	    var playBtn = _selector$init$select2[1];
+	    var timeTick = _selector$init$select2[2];
+	    var timeCount = _selector$init$select2[3];
+	    var timeLine = _selector$init$select2[4];
+	    var timePassed = _selector$init$select2[5];
+	    var volumeArea = _selector$init$select2[6];
+	    var volumeProgress = _selector$init$select2[7];
+	    var lyricArea = _selector$init$select2[8];
+	    var canvas = _selector$init$select2[9];
+
+	    var duration;
 
 	    if (hasLrc) {
 	        lyric.parse(musicConf.lrc).renderTo(lyricArea);
@@ -116,115 +125,119 @@
 	        toggleTheme: toggleTheme
 	    };
 
-	    /*
-	     * 工具函数
-	     * */
-
 	    // 给播放器绑定各种事件
 	    function eventInit() {
-	        audio.addEventListener('ended', function () {
-	            utils.removeClass(meplayerContainer, 'meplayer-isplaying');
-	        });
+	        audio.addEventListener('ended', handleAudioEnd);
+	        audio.addEventListener('canplaythrough', handleCanPlayThrough);
+	        audio.addEventListener('durationchange', handleDurationChange);
+	        audio.addEventListener('timeupdate', handleTimeUpdate);
+	        playBtn.addEventListener('click', handlePlayClick);
+	        timeLine.addEventListener('click', handleTimeLineClick);
+	    }
 
-	        audio.addEventListener('canplaythrough', function () {
-	            duration = this.duration;
-	            setTimeout(function () {
-	                utils.removeClass(meplayerContainer, 'meplayer-isloading');
-	                timeCount.querySelector('.meplayer-duration-text').innerText = utils.parseSec(duration.toFixed(0));
-	            }, 1000);
-	        });
+	    function handleAudioEnd() {
+	        utils.removeClass(meplayerContainer, 'meplayer-isplaying');
+	    }
 
-	        audio.addEventListener('durationchange', function () {
-	            duration = this.duration;
-	        });
+	    function handleCanPlayThrough() {
+	        duration = this.duration;
+	        setTimeout(function () {
+	            utils.removeClass(meplayerContainer, 'meplayer-isloading');
+	            timeCount.querySelector('.meplayer-duration-text').innerText = utils.parseSec(duration.toFixed(0));
+	        }, 1000);
+	    }
 
-	        audio.addEventListener('timeupdate', function () {
-	            var curTime = audio.currentTime.toFixed(0);
-	            var curTimeForLrc = audio.currentTime.toFixed(3);
-	            var playPercent = 100 * (curTime / duration);
+	    function handleDurationChange() {
+	        duration = this.duration;
+	    }
 
-	            timePassed.style.width = playPercent.toFixed(2) + '%';
-	            timeTick.innerText = utils.parseSec(curTime);
+	    function handleTimeUpdate() {
+	        var curTime = audio.currentTime.toFixed(0);
+	        var curTimeForLrc = audio.currentTime.toFixed(3);
+	        var playPercent = 100 * (curTime / duration);
 
-	            if (hasLrc && theme === _constants.THEME_DEFAULT) {
-	                var tempLrcIndex = lyric.currentIndex(curTimeForLrc);
-	                var tempLrcLines = lyricArea.querySelectorAll('p');
-	                var tempLrcLinePre = tempLrcLines[tempLrcIndex - 1];
-	                var tempLrcLine = tempLrcLines[tempLrcIndex];
-	                var tempLrcLineNext = tempLrcLines[tempLrcIndex + 1];
+	        timePassed.style.width = playPercent.toFixed(2) + '%';
+	        timeTick.innerText = utils.parseSec(curTime);
 
-	                if (!tempLrcLine.className.includes('meplayer-lyric-current')) {
-	                    utils.removeClass(lyricArea.querySelector('.meplayer-lyric-current'), 'meplayer-lyric-current');
-	                    if (lyricArea.querySelector('.meplayer-lyric-pre')) {
-	                        utils.removeClass(lyricArea.querySelector('.meplayer-lyric-pre'), 'meplayer-lyric-pre');
-	                    }
-	                    if (lyricArea.querySelector('.meplayer-lyric-next')) {
-	                        utils.removeClass(lyricArea.querySelector('.meplayer-lyric-next'), 'meplayer-lyric-next');
-	                    }
-	                    utils.addClass(tempLrcLine, 'meplayer-lyric-current');
-	                    if (tempLrcLinePre) {
-	                        utils.addClass(tempLrcLinePre, 'meplayer-lyric-pre');
-	                    }
-	                    if (tempLrcLineNext) {
-	                        utils.addClass(tempLrcLineNext, 'meplayer-lyric-next');
-	                    }
+	        if (hasLrc && theme === _constants.THEME_DEFAULT) {
+	            var tempLrcIndex = lyric.currentIndex(curTimeForLrc);
+	            var tempLrcLines = lyricArea.querySelectorAll('p');
+	            var tempLrcLinePre = tempLrcLines[tempLrcIndex - 1];
+	            var tempLrcLine = tempLrcLines[tempLrcIndex];
+	            var tempLrcLineNext = tempLrcLines[tempLrcIndex + 1];
 
-	                    lyricArea.style.webkitTransform = 'translateY(-' + 20 * tempLrcIndex + 'px)';
-	                    lyricArea.style.transform = 'translateY(-' + 20 * tempLrcIndex + 'px)';
+	            if (!tempLrcLine.className.includes('meplayer-lyric-current')) {
+	                utils.removeClass(lyricArea.querySelector('.meplayer-lyric-current'), 'meplayer-lyric-current');
+	                if (lyricArea.querySelector('.meplayer-lyric-pre')) {
+	                    utils.removeClass(lyricArea.querySelector('.meplayer-lyric-pre'), 'meplayer-lyric-pre');
 	                }
-	            }
-	        });
+	                if (lyricArea.querySelector('.meplayer-lyric-next')) {
+	                    utils.removeClass(lyricArea.querySelector('.meplayer-lyric-next'), 'meplayer-lyric-next');
+	                }
+	                utils.addClass(tempLrcLine, 'meplayer-lyric-current');
+	                if (tempLrcLinePre) {
+	                    utils.addClass(tempLrcLinePre, 'meplayer-lyric-pre');
+	                }
+	                if (tempLrcLineNext) {
+	                    utils.addClass(tempLrcLineNext, 'meplayer-lyric-next');
+	                }
 
+	                lyricArea.style.webkitTransform = 'translateY(-' + 20 * tempLrcIndex + 'px)';
+	                lyricArea.style.transform = 'translateY(-' + 20 * tempLrcIndex + 'px)';
+	            }
+	        }
+	    }
+
+	    function handlePlayClick() {
 	        var _handleMouseWheel;
-	        playBtn.addEventListener('click', function () {
-	            if (audio.paused) {
-	                audio.play();
-	                if (theme === _constants.THEME_DEFAULT && !hasLrc) {
-	                    spectrum.draw();
-	                }
-	                // 播放状态中可以用滑轮调节音量
-	                meplayerContainer.addEventListener('mousewheel', function handleMouseWheel() {
-	                    var timer = null;
-	                    var step = 0.05;
-	                    _handleMouseWheel = function _handleMouseWheel(event) {
-	                        if (timer) {
-	                            clearTimeout(timer);
-	                        }
-	                        if (!meplayerContainer.className.includes('meplayer-adjusting-volume')) {
-	                            utils.addClass(meplayerContainer, 'meplayer-adjusting-volume');
-	                        }
-	                        if (event.wheelDeltaY < 0 && audio.volume > step) {
-	                            audio.volume -= step;
-	                        }
-	                        if (event.wheelDeltaY > 0 && audio.volume < 1 - step) {
-	                            audio.volume += step;
-	                        }
-	                        if (theme === _constants.THEME_DEFAULT) {
-	                            volumeProgress.style.width = audio.volume * 100 + '%';
-	                        } else {
-	                            volumeArea.querySelector('i').style.opacity = audio.volume;
-	                        }
-	                        event.preventDefault();
 
-	                        timer = setTimeout(function () {
-	                            utils.removeClass(meplayerContainer, 'meplayer-adjusting-volume');
-	                        }, 1000);
-	                    };
-	                    return _handleMouseWheel;
-	                }());
-	            } else {
-	                audio.pause();
-	                spectrum.stop();
-	                meplayerContainer.removeEventListener('mousewheel', _handleMouseWheel);
+	        if (audio.paused) {
+	            audio.play();
+	            if (theme === _constants.THEME_DEFAULT && !hasLrc) {
+	                spectrum.draw();
 	            }
-	            utils.toggleClass(meplayerContainer, 'meplayer-isplaying');
-	        });
+	            // 播放状态中可以用滑轮调节音量
+	            meplayerContainer.addEventListener('mousewheel', function handleMouseWheel() {
+	                var timer = null;
+	                var step = 0.05;
+	                _handleMouseWheel = function _handleMouseWheel(event) {
+	                    if (timer) {
+	                        clearTimeout(timer);
+	                    }
+	                    if (!meplayerContainer.className.includes('meplayer-adjusting-volume')) {
+	                        utils.addClass(meplayerContainer, 'meplayer-adjusting-volume');
+	                    }
+	                    if (event.wheelDeltaY < 0 && audio.volume > step) {
+	                        audio.volume -= step;
+	                    }
+	                    if (event.wheelDeltaY > 0 && audio.volume < 1 - step) {
+	                        audio.volume += step;
+	                    }
+	                    if (theme === _constants.THEME_DEFAULT) {
+	                        volumeProgress.style.width = audio.volume * 100 + '%';
+	                    } else {
+	                        volumeArea.querySelector('i').style.opacity = audio.volume;
+	                    }
+	                    event.preventDefault();
 
-	        timeLine.addEventListener('click', function (event) {
-	            var clickPercent = (event.pageX - utils.getAbsLeft(this)) / this.offsetWidth;
-	            timePassed.style.width = clickPercent * 100 + '%';
-	            audio.currentTime = (clickPercent * duration).toFixed(0);
-	        });
+	                    timer = setTimeout(function () {
+	                        utils.removeClass(meplayerContainer, 'meplayer-adjusting-volume');
+	                    }, 1000);
+	                };
+	                return _handleMouseWheel;
+	            }());
+	        } else {
+	            audio.pause();
+	            spectrum.stop();
+	            meplayerContainer.removeEventListener('mousewheel', _handleMouseWheel);
+	        }
+	        utils.toggleClass(meplayerContainer, 'meplayer-isplaying');
+	    }
+
+	    function handleTimeLineClick() {
+	        var clickPercent = (event.pageX - utils.getAbsLeft(this)) / this.offsetWidth;
+	        timePassed.style.width = clickPercent * 100 + '%';
+	        audio.currentTime = (clickPercent * duration).toFixed(0);
 	    }
 
 	    function play() {
@@ -272,16 +285,6 @@
 
 	if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
 	    module.exports = root.mePlayer;
-	}
-
-	function getTarget(option) {
-	    if (typeof option === 'string') {
-	        return document.querySelector(option);
-	    } else if (option.toString().includes('HTMLDivElement')) {
-	        return option;
-	    } else {
-	        return document.querySelector('.meplayer');
-	    }
 	}
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
@@ -539,6 +542,81 @@
 	exports.init = init;
 	exports.draw = draw;
 	exports.stop = stop;
+
+/***/ },
+/* 5 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	/**
+	 * 元素选择器辅助工具模块
+	 * init  : 设定容器
+	 * select: 传入选择器则返回元素，传入选择器数组则返回对应的元素数组
+	 * $     : 辅助功能，使得无论传入选择器字符串还是元素本身，都能返回正确的元素
+	 */
+
+	var container;
+
+	function init(element) {
+	    container = $(element);
+	    return this;
+	}
+
+	function select(element) {
+	    var result;
+	    if (Array.isArray(element)) {
+	        var tempResults = [];
+	        var _iteratorNormalCompletion = true;
+	        var _didIteratorError = false;
+	        var _iteratorError = undefined;
+
+	        try {
+	            for (var _iterator = element[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+	                var value = _step.value;
+
+	                tempResults.push($(value, container));
+	            }
+	        } catch (err) {
+	            _didIteratorError = true;
+	            _iteratorError = err;
+	        } finally {
+	            try {
+	                if (!_iteratorNormalCompletion && _iterator.return) {
+	                    _iterator.return();
+	                }
+	            } finally {
+	                if (_didIteratorError) {
+	                    throw _iteratorError;
+	                }
+	            }
+	        }
+
+	        result = tempResults;
+	    } else {
+	        result = $(element, container);
+	    }
+	    return result;
+	}
+
+	function $(element, context) {
+	    var result;
+	    context = context || document;
+	    if (typeof element === 'string') {
+	        result = context.querySelector(element);
+	    } else if (element.toString().includes('HTMLDivElement')) {
+	        result = element;
+	    }
+
+	    return result;
+	}
+
+	exports.init = init;
+	exports.select = select;
+	exports.$ = $;
 
 /***/ }
 /******/ ]);
