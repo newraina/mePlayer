@@ -2,7 +2,6 @@
 
 .meplayer-container {
     font-family: Helvetica, Tahoma, Arial, STXihei, '华文细黑', 'Microsoft YaHei', '微软雅黑', SimSun, '宋体', Heiti, '黑体', sans-serif;
-    line-height: initial;
 
     position: relative;
 
@@ -327,7 +326,7 @@
             animation: breath 2s infinite alternate;
 }
 
-.meplayer-container .meplayer-control-play [class^='icon-'] {
+.meplayer-container .meplayer-control-play i {
     line-height: 50px;
 
     position: absolute;
