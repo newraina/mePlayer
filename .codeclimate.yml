@@ -25,6 +25,7 @@ exclude_paths:
 
 ecmaFeatures:
   modules: true
+  blockBindings: true
 
 env:
   amd: true
