@@ -9,7 +9,7 @@ body {
     margin: 0;
     padding: 0;
 
-    background: #E6EAF1;
+    background: #e6eaf1;
 }
 
 .container {
@@ -26,15 +26,24 @@ body {
 }
 
 button {
-    display: block;
-    margin: 70px auto;
-    color: #777;
-    background-color: #FFF;
     font-size: 14px;
-    text-align: center;
     line-height: 30px;
-    height: 30px;
+
+    display: block;
+
     width: 120px;
-    appearance: none;
+    height: 30px;
+    margin: 70px auto;
+
+    text-align: center;
+
+    color: #777;
     border: none;
+    background-color: #fff;
+
+    -webkit-appearance: none;
+
+       -moz-appearance: none;
+
+            appearance: none;
 }
