@@ -4,7 +4,7 @@
   "description": "a simple and reliable HTML5 music player",
   "main": "dist/meplayer.min.js",
   "scripts": {
-    "test": "gulp"
+    "build": "gulp"
   },
   "repository": {
     "type": "git",

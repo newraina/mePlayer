@@ -97,7 +97,8 @@ root.mePlayer = function (options) {
     }
 
     function handleTimeUpdate() {
-        var curTime       = (audio.currentTime).toFixed(0);
+        console.log(currentTime)
+        var curTime       = audio.currentTime | 0;
         var curTimeForLrc = (audio.currentTime).toFixed(3);
         var playPercent   = 100 * (curTime / duration);
 
