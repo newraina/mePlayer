@@ -38,8 +38,8 @@ function getAbsLeft(el) {
 }
 
 function parseSec(sec) {
-    var tempMin = (sec / 60).toFixed(0);
-    var tempSec = (sec % 60).toFixed(0);
+    var tempMin = (sec / 60) | 0;
+    var tempSec = (sec % 60) | 0;
     var curMin  = tempMin < 10 ? ('0' + tempMin) : tempMin;
     var curSec  = tempSec < 10 ? ('0' + tempSec) : tempSec;
     return curMin + ':' + curSec;

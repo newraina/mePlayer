@@ -152,7 +152,7 @@
 	    }
 
 	    function handleTimeUpdate() {
-	        var curTime = audio.currentTime | 0;
+	        var curTime = audio.currentTime;
 	        var curTimeForLrc = audio.currentTime.toFixed(3);
 	        var playPercent = 100 * (curTime / duration);
 
@@ -431,8 +431,8 @@
 	}
 
 	function parseSec(sec) {
-	    var tempMin = (sec / 60).toFixed(0);
-	    var tempSec = (sec % 60).toFixed(0);
+	    var tempMin = sec / 60 | 0;
+	    var tempSec = sec % 60 | 0;
 	    var curMin = tempMin < 10 ? '0' + tempMin : tempMin;
 	    var curSec = tempSec < 10 ? '0' + tempSec : tempSec;
 	    return curMin + ':' + curSec;
