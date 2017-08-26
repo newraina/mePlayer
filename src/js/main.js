@@ -35,10 +35,10 @@ root.mePlayer = function (options) {
                              </div>
                              <canvas class="meplayer-spectrum"></canvas>
                              <div class="meplayer-lyric"><div class="meplayer-lyric-area"></div></div>
-                             <div class="meplayer-control"><div class="meplayer-control-play"><i class="icon-play"></i><i class="icon-pause"></i></div></div>
-                             <div class="meplayer-volume-bg"><div class="meplayer-volume"><i class="icon-volume"></i><div class="meplayer-volume-progress"></div></div></div>
-                             <div class="meplayer-duration"><i class="icon-clock"></i><span class="meplayer-duration-text">loading</span></div>
-                             <div class="meplayer-loadingsign"><i class="icon-spin animate-spin"></i>loading</div>
+                             <div class="meplayer-control"><div class="meplayer-control-play"><i class="me-player-font icon-play"></i><i class="me-player-font icon-pause"></i></div></div>
+                             <div class="meplayer-volume-bg"><div class="meplayer-volume"><i class="me-player-font icon-volume"></i><div class="meplayer-volume-progress"></div></div></div>
+                             <div class="meplayer-duration"><i class="me-player-font icon-clock"></i><span class="meplayer-duration-text">loading</span></div>
+                             <div class="meplayer-loadingsign"><i class="me-player-font icon-spin animate-spin"></i>loading</div>
                              <div class="meplayer-timeline-bg"><div class="meplayer-timeline"><div class="meplayer-timeline-passed"></div></div></div>
                              </div>`;
 

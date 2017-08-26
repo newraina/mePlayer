@@ -31,7 +31,7 @@
     color: #D94240;
 }
 
-.meplayer-container-mini .meplayer-control-play [class^='icon-'] {
+.meplayer-container-mini .meplayer-control-play .me-player-font {
     line-height: 90px;
 
     position: absolute;

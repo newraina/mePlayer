@@ -42,13 +42,13 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
 
 	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 	var _constants = __webpack_require__(1);
 
@@ -86,28 +86,25 @@
 	        coverSrc = musicConf.cover || 'https://unsplash.it/78/?random',
 	        currentThemeClass = theme === _constants.THEME_DEFAULT ? 'meplayer-container' : 'meplayer-container-mini',
 	        containerClass = currentThemeClass + ' ' + (hasLrc ? 'meplayer-haslrc' : '') + ' meplayer-isloading',
-	        playerHTMLContent = '<div class="' + containerClass + '">\n                             <audio src=' + musicConf.src + ' preload="auto"></audio>\n                             <div class="meplayer-info">\n                             <div class="meplayer-info-cover"><img src=' + coverSrc + ' alt="cd-cover"></div>\n                             <div class="meplayer-meta">\n                             <div class="meplayer-meta-title">' + musicConf.title + '</div>\n                             <div class="meplayer-meta-author">' + musicConf.author + '</div>\n                             <div class="meplayer-meta-time-tick"><span class="meplayer-meta-time-tick-text"></span></div>\n                             </div>\n                             </div>\n                             <canvas class="meplayer-spectrum"></canvas>\n                             <div class="meplayer-lyric"><div class="meplayer-lyric-area"></div></div>\n                             <div class="meplayer-control"><div class="meplayer-control-play"><i class="icon-play"></i><i class="icon-pause"></i></div></div>\n                             <div class="meplayer-volume-bg"><div class="meplayer-volume"><i class="icon-volume"></i><div class="meplayer-volume-progress"></div></div></div>\n                             <div class="meplayer-duration"><i class="icon-clock"></i><span class="meplayer-duration-text">loading</span></div>\n                             <div class="meplayer-loadingsign"><i class="icon-spin animate-spin"></i>loading</div>\n                             <div class="meplayer-timeline-bg"><div class="meplayer-timeline"><div class="meplayer-timeline-passed"></div></div></div>\n                             </div>';
+	        playerHTMLContent = '<div class="' + containerClass + '">\n                             <audio src=' + musicConf.src + ' preload="auto"></audio>\n                             <div class="meplayer-info">\n                             <div class="meplayer-info-cover"><img src=' + coverSrc + ' alt="cd-cover"></div>\n                             <div class="meplayer-meta">\n                             <div class="meplayer-meta-title">' + musicConf.title + '</div>\n                             <div class="meplayer-meta-author">' + musicConf.author + '</div>\n                             <div class="meplayer-meta-time-tick"><span class="meplayer-meta-time-tick-text"></span></div>\n                             </div>\n                             </div>\n                             <canvas class="meplayer-spectrum"></canvas>\n                             <div class="meplayer-lyric"><div class="meplayer-lyric-area"></div></div>\n                             <div class="meplayer-control"><div class="meplayer-control-play"><i class="me-player-font icon-play"></i><i class="me-player-font icon-pause"></i></div></div>\n                             <div class="meplayer-volume-bg"><div class="meplayer-volume"><i class="me-player-font icon-volume"></i><div class="meplayer-volume-progress"></div></div></div>\n                             <div class="meplayer-duration"><i class="me-player-font icon-clock"></i><span class="meplayer-duration-text">loading</span></div>\n                             <div class="meplayer-loadingsign"><i class="me-player-font icon-spin animate-spin"></i>loading</div>\n                             <div class="meplayer-timeline-bg"><div class="meplayer-timeline"><div class="meplayer-timeline-passed"></div></div></div>\n                             </div>';
 
 	    target.innerHTML = playerHTMLContent;
 
-	    var meplayerContainer = target.querySelector('.' + currentThemeClass);
+	    var meplayerContainer = target.querySelector('.' + currentThemeClass),
+	        _selector$init$select = selector.init(meplayerContainer).select(['audio', '.meplayer-control-play', '.meplayer-meta-time-tick-text', '.meplayer-duration', '.meplayer-timeline', '.meplayer-timeline-passed', '.meplayer-volume', '.meplayer-volume-progress', '.meplayer-lyric-area', '.meplayer-spectrum']),
+	        _selector$init$select2 = _slicedToArray(_selector$init$select, 10),
+	        audio = _selector$init$select2[0],
+	        playBtn = _selector$init$select2[1],
+	        timeTick = _selector$init$select2[2],
+	        timeCount = _selector$init$select2[3],
+	        timeLine = _selector$init$select2[4],
+	        timePassed = _selector$init$select2[5],
+	        volumeArea = _selector$init$select2[6],
+	        volumeProgress = _selector$init$select2[7],
+	        lyricArea = _selector$init$select2[8],
+	        canvas = _selector$init$select2[9],
+	        duration;
 
-	    var _selector$init$select = selector.init(meplayerContainer).select(['audio', '.meplayer-control-play', '.meplayer-meta-time-tick-text', '.meplayer-duration', '.meplayer-timeline', '.meplayer-timeline-passed', '.meplayer-volume', '.meplayer-volume-progress', '.meplayer-lyric-area', '.meplayer-spectrum']);
-
-	    var _selector$init$select2 = _slicedToArray(_selector$init$select, 10);
-
-	    var audio = _selector$init$select2[0];
-	    var playBtn = _selector$init$select2[1];
-	    var timeTick = _selector$init$select2[2];
-	    var timeCount = _selector$init$select2[3];
-	    var timeLine = _selector$init$select2[4];
-	    var timePassed = _selector$init$select2[5];
-	    var volumeArea = _selector$init$select2[6];
-	    var volumeProgress = _selector$init$select2[7];
-	    var lyricArea = _selector$init$select2[8];
-	    var canvas = _selector$init$select2[9];
-
-	    var duration;
 
 	    if (hasLrc) {
 	        lyric.parse(musicConf.lrc).renderTo(lyricArea);
@@ -288,9 +285,9 @@
 	}
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
-/***/ },
+/***/ }),
 /* 1 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	'use strict';
 
@@ -311,9 +308,9 @@
 	exports.LYRIC_CURRENT_CLASS = LYRIC_CURRENT_CLASS;
 	exports.LYRIC_NEXT_CLASS = LYRIC_NEXT_CLASS;
 
-/***/ },
+/***/ }),
 /* 2 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
@@ -391,9 +388,9 @@
 	exports.renderTo = renderTo;
 	exports.currentIndex = currentIndex;
 
-/***/ },
+/***/ }),
 /* 3 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	'use strict';
 
@@ -444,9 +441,9 @@
 	exports.getAbsLeft = getAbsLeft;
 	exports.parseSec = parseSec;
 
-/***/ },
+/***/ }),
 /* 4 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	'use strict';
 
@@ -508,9 +505,9 @@
 	}
 
 	function init(canvasElem) {
-	    var width = arguments.length <= 1 || arguments[1] === undefined ? 220 : arguments[1];
-	    var height = arguments.length <= 2 || arguments[2] === undefined ? 30 : arguments[2];
-	    var color = arguments.length <= 3 || arguments[3] === undefined ? '#D94240' : arguments[3];
+	    var width = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 220;
+	    var height = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 30;
+	    var color = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '#D94240';
 
 	    canvas = canvasElem;
 	    canvas.width = width;
@@ -543,9 +540,9 @@
 	exports.draw = draw;
 	exports.stop = stop;
 
-/***/ },
+/***/ }),
 /* 5 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	'use strict';
 
@@ -618,5 +615,5 @@
 	exports.select = select;
 	exports.$ = $;
 
-/***/ }
+/***/ })
 /******/ ]);
