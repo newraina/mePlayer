@@ -22,19 +22,23 @@
 - 引入`dist`文件夹中相关文件，或者`npm install meplayer`
 - 初始化
 
-  ```javascript
+```javascript
 mePlayer({
-    theme: '可选，不指定时为默认主题，值为"mini"时为迷你版主题',
+    theme: '可选(option)，不指定时为默认主题，值为"mini"时为迷你版主题',
     music : {
         src   : '音乐文件地址',
         title : '歌名',
         author: '歌手名',
-        cover : '封面路径',
-        lrc   : '歌词字符串：[00:24.600]温柔的晚风\n[00:27.830]轻轻吹过 爱人的梦中\n ...'
+        cover : '封面路径',  // deafault: random
+        lrc   : '歌词字符串：[00:24.600]温柔的晚风\n[00:27.830]轻轻吹过 爱人的梦中\n ...',
+        autoplay: true,      // default: false
+        loop: false,         // default: true
+        preload: 'metadata'  // default: auto (auto, metadata, none)
     },
     target: '放置播放器的DOM容器，如: .music'
 });
-  ```
+```
+
 - 运行中可使用`meplayer.play()`和`meplayer.pause()`手动播放暂停
 - `meplayer.toggleTheme()`可一键切换主题
 

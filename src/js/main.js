@@ -19,12 +19,15 @@ root.mePlayer = function (options) {
         theme             = options.theme || THEME_DEFAULT,
         hasLrc            = musicConf.lrc ? true : false,
         coverSrc          = musicConf.cover || 'https://unsplash.it/78/?random',
+        preload           = musicConf.preload || 'auto',
+        autoplay          = musicConf.autoplay ? ' autoplay' : '',
+        loop              = (musicConf.loop || (typeof musicConf.loop === 'undefined')) ? ' loop' : '',
 
         currentThemeClass = theme === THEME_DEFAULT ? 'meplayer-container' : 'meplayer-container-mini',
         containerClass    = `${currentThemeClass} ${hasLrc ? 'meplayer-haslrc' : ''} meplayer-isloading`,
 
         playerHTMLContent = `<div class="${containerClass}">
-                             <audio src=${musicConf.src} preload="auto"></audio>
+                             <audio src=${musicConf.src} preload="${preload}"${loop}></audio>
                              <div class="meplayer-info">
                              <div class="meplayer-info-cover"><img src=${coverSrc} alt="cd-cover"></div>
                              <div class="meplayer-meta">
@@ -59,7 +62,10 @@ root.mePlayer = function (options) {
         spectrum.init(canvas);
     }
 
-    eventInit();
+  // 触发自动播放
+  if (autoplay) handlePlayClick();
+
+  eventInit();
 
     // 重定义meplayer
     root.mePlayer = {
