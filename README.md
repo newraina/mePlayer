@@ -38,6 +38,23 @@ mePlayer({
     target: '放置播放器的DOM容器，如: .music'
 });
 ```
+- 自动初始化
+
+```html
+<div class="meplayer" 
+    data-auto="true" 
+    data-src="/music/加藤達也-切ない恋心.mp3" 
+    data-title="切ない恋心" 
+    data-author="加藤達也" 
+    data-cover="/music/cover.jpg" 
+    data-lrc="歌词字符串(自动初始化时歌词不要使用换行符\n，直接敲回车键)：
+    [00:24.600]温柔的晚风
+    [00:27.830]轻轻吹过 爱人的梦中
+    ..."
+    data-preload="auto" 
+    data-loop="true" 
+    data-autoplay="false"></div>
+```
 
 - 运行中可使用`meplayer.play()`和`meplayer.pause()`手动播放暂停
 - `meplayer.toggleTheme()`可一键切换主题

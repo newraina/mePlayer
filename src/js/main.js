@@ -238,3 +238,24 @@ root.mePlayer = function (options) {
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
     module.exports = root.mePlayer;
 }
+
+// auto init
+(function () {
+  const players = document.querySelectorAll('.meplayer');
+  for (const player of players) {
+    if (player.dataset.auto !== 'true') continue;
+    mePlayer({
+      music : {
+        src   :   player.dataset.src,
+        title :   player.dataset.title,
+        author:   player.dataset.author,
+        cover :   player.dataset.cover,
+        lrc   :   player.dataset.lrc,
+        autoplay: player.dataset.autoplay === 'true',
+        loop:     player.dataset.loop === 'true' || (typeof player.dataset.loop === 'undefined'),
+        preload:  player.dataset.preload
+      },
+      target: player
+    });
+  }
+})();
