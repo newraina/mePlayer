@@ -245,6 +245,7 @@ if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
   for (const player of players) {
     if (player.dataset.auto !== 'true') continue;
     mePlayer({
+      theme: player.dataset.theme,
       music : {
         src   :   player.dataset.src,
         title :   player.dataset.title,

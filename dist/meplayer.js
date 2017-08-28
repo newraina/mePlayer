@@ -303,6 +303,7 @@
 
 	            if (player.dataset.auto !== 'true') continue;
 	            mePlayer({
+	                theme: player.dataset.theme,
 	                music: {
 	                    src: player.dataset.src,
 	                    title: player.dataset.title,
