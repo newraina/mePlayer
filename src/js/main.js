@@ -19,12 +19,15 @@ root.mePlayer = function (options) {
         theme             = options.theme || THEME_DEFAULT,
         hasLrc            = musicConf.lrc ? true : false,
         coverSrc          = musicConf.cover || 'https://unsplash.it/78/?random',
+        preload           = options.preload || 'auto',
+        autoplay          = options.autoplay ? ' autoplay' : '',
+        loop              = (options.loop || (typeof options.loop === 'undefined')) ? ' loop' : '',
 
         currentThemeClass = theme === THEME_DEFAULT ? 'meplayer-container' : 'meplayer-container-mini',
         containerClass    = `${currentThemeClass} ${hasLrc ? 'meplayer-haslrc' : ''} meplayer-isloading`,
 
         playerHTMLContent = `<div class="${containerClass}">
-                             <audio src=${musicConf.src} preload="auto"></audio>
+                             <audio src="${musicConf.src}" preload="${preload}"${loop}></audio>
                              <div class="meplayer-info">
                              <div class="meplayer-info-cover"><img src=${coverSrc} alt="cd-cover"></div>
                              <div class="meplayer-meta">
@@ -35,10 +38,10 @@ root.mePlayer = function (options) {
                              </div>
                              <canvas class="meplayer-spectrum"></canvas>
                              <div class="meplayer-lyric"><div class="meplayer-lyric-area"></div></div>
-                             <div class="meplayer-control"><div class="meplayer-control-play"><i class="icon-play"></i><i class="icon-pause"></i></div></div>
-                             <div class="meplayer-volume-bg"><div class="meplayer-volume"><i class="icon-volume"></i><div class="meplayer-volume-progress"></div></div></div>
-                             <div class="meplayer-duration"><i class="icon-clock"></i><span class="meplayer-duration-text">loading</span></div>
-                             <div class="meplayer-loadingsign"><i class="icon-spin animate-spin"></i>loading</div>
+                             <div class="meplayer-control"><div class="meplayer-control-play"><i class="me-player-font icon-play"></i><i class="me-player-font icon-pause"></i></div></div>
+                             <div class="meplayer-volume-bg"><div class="meplayer-volume"><i class="me-player-font icon-volume"></i><div class="meplayer-volume-progress"></div></div></div>
+                             <div class="meplayer-duration"><i class="me-player-font icon-clock"></i><span class="meplayer-duration-text">loading</span></div>
+                             <div class="meplayer-loadingsign"><i class="me-player-font icon-spin animate-spin"></i>loading</div>
                              <div class="meplayer-timeline-bg"><div class="meplayer-timeline"><div class="meplayer-timeline-passed"></div></div></div>
                              </div>`;
 
@@ -59,7 +62,10 @@ root.mePlayer = function (options) {
         spectrum.init(canvas);
     }
 
-    eventInit();
+  // 触发自动播放
+  if (autoplay) handlePlayClick();
+
+  eventInit();
 
     // 重定义meplayer
     root.mePlayer = {
@@ -232,3 +238,24 @@ root.mePlayer = function (options) {
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
     module.exports = root.mePlayer;
 }
+
+// auto init
+(function () {
+  const player = document.getElementById('meplayer-auto-init');
+  if (player.dataset.auto === 'true'){
+    mePlayer({
+      theme: player.dataset.theme,
+      music : {
+        src   :   player.dataset.src,
+        title :   player.dataset.title,
+        author:   player.dataset.author,
+        cover :   player.dataset.cover,
+        lrc   :   player.dataset.lrc
+      },
+      autoplay: player.dataset.autoplay === 'true',
+      loop    : player.dataset.loop === 'true' || (typeof player.dataset.loop === 'undefined'),
+      preload : player.dataset.preload,
+      target  : player
+    });
+  }
+})();

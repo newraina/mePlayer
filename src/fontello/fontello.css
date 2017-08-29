@@ -1,5 +1,5 @@
 @font-face {
-  font-family: 'fontello';
+  font-family: 'mePlayerFont';
   src: url('fonts/fontello.eot?77128880');
   src: url('fonts/fontello.eot?77128880#iefix') format('embedded-opentype'),
        url('fonts/fontello.woff?77128880') format('woff'),
@@ -13,14 +13,13 @@
 /*
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
-    font-family: 'fontello';
+    font-family: 'mePlayerFont';
     src: url('../font/fontello.svg?77128880#fontello') format('svg');
   }
 }
 */
-
- [class^="icon-"]:before, [class*=" icon-"]:before {
-  font-family: "fontello";
+.me-player-font {
+  font-family: "mePlayerFont";
   font-style: normal;
   font-weight: normal;
   speak: none;
@@ -34,8 +33,8 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-play:before { content: '\e801'; } /* '' */
-.icon-pause:before { content: '\e802'; } /* '' */
-.icon-clock:before { content: '\e803'; } /* '' */
-.icon-volume:before { content: '\e804'; } /* '' */
-.icon-spin:before { content: '\e800'; } /* '' */
+.me-player-font.icon-play:before { content: '\e801'; } /* '' */
+.me-player-font.icon-pause:before { content: '\e802'; } /* '' */
+.me-player-font.icon-clock:before { content: '\e803'; } /* '' */
+.me-player-font.icon-volume:before { content: '\e804'; } /* '' */
+.me-player-font.icon-spin:before { content: '\e800'; } /* '' */

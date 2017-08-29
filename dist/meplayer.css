@@ -11,6 +11,8 @@
 
     background: #FFF;
     box-shadow: 0 0 20px rgba(59, 59, 177, .18);
+    margin-bottom: 20px;
+    margin-top: 30px;
 }
 
 .meplayer-container .meplayer-info {
@@ -78,14 +80,12 @@
     transition: all .6s cubic-bezier(0, .36, .51, 1.39) .65s;
     -webkit-transform: translateY(0);
             transform: translateY(0);
-
+    margin-top: 30px;
     opacity: 1;
 }
 
 .meplayer-container .meplayer-meta .meplayer-meta-time-tick {
     font-size: 13px;
-
-    margin-top: 30px;
 
     -webkit-transform: translateY(10px);
 
@@ -531,7 +531,7 @@
     color: #D94240;
 }
 
-.meplayer-container-mini .meplayer-control-play [class^='icon-'] {
+.meplayer-container-mini .meplayer-control-play .me-player-font {
     line-height: 90px;
 
     position: absolute;
@@ -714,7 +714,7 @@
 }
 
 @font-face {
-  font-family: 'fontello';
+  font-family: 'mePlayerFont';
   src: url('fonts/fontello.eot?77128880');
   src: url('fonts/fontello.eot?77128880#iefix') format('embedded-opentype'),
        url('fonts/fontello.woff?77128880') format('woff'),
@@ -728,14 +728,13 @@
 /*
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
-    font-family: 'fontello';
+    font-family: 'mePlayerFont';
     src: url('../font/fontello.svg?77128880#fontello') format('svg');
   }
 }
 */
-
- [class^="icon-"]:before, [class*=" icon-"]:before {
-  font-family: "fontello";
+.me-player-font {
+  font-family: "mePlayerFont";
   font-style: normal;
   font-weight: normal;
   speak: none;
@@ -749,8 +748,8 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-play:before { content: '\e801'; } /* '' */
-.icon-pause:before { content: '\e802'; } /* '' */
-.icon-clock:before { content: '\e803'; } /* '' */
-.icon-volume:before { content: '\e804'; } /* '' */
-.icon-spin:before { content: '\e800'; } /* '' */
+.me-player-font.icon-play:before { content: '\e801'; } /* '' */
+.me-player-font.icon-pause:before { content: '\e802'; } /* '' */
+.me-player-font.icon-clock:before { content: '\e803'; } /* '' */
+.me-player-font.icon-volume:before { content: '\e804'; } /* '' */
+.me-player-font.icon-spin:before { content: '\e800'; } /* '' */
