@@ -30,19 +30,20 @@ mePlayer({
         title : '歌名',
         author: '歌手名',
         cover : '封面路径',  // deafault: random
-        lrc   : '歌词字符串：[00:24.600]温柔的晚风\n[00:27.830]轻轻吹过 爱人的梦中\n ...',
-        autoplay: true,      // default: false
-        loop: false,         // default: true
-        preload: 'metadata'  // default: auto (auto, metadata, none)
+        lrc   : '歌词字符串：[00:24.600]温柔的晚风\n[00:27.830]轻轻吹过 爱人的梦中\n ...'
     },
+    autoplay: true,      // default: false
+    loop: false,         // default: true
+    preload: 'metadata',  // default: auto (auto, metadata, none)
     target: '放置播放器的DOM容器，如: .music'
 });
 ```
 - 自动初始化
 
 ```html
-<div class="meplayer" 
+<div id="meplayer-auto-init" 
     data-auto="true" 
+    data-theme="default"
     data-src="/music/加藤達也-切ない恋心.mp3" 
     data-title="切ない恋心" 
     data-author="加藤達也" 

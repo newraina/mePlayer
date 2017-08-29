@@ -19,15 +19,15 @@ root.mePlayer = function (options) {
         theme             = options.theme || THEME_DEFAULT,
         hasLrc            = musicConf.lrc ? true : false,
         coverSrc          = musicConf.cover || 'https://unsplash.it/78/?random',
-        preload           = musicConf.preload || 'auto',
-        autoplay          = musicConf.autoplay ? ' autoplay' : '',
-        loop              = (musicConf.loop || (typeof musicConf.loop === 'undefined')) ? ' loop' : '',
+        preload           = options.preload || 'auto',
+        autoplay          = options.autoplay ? ' autoplay' : '',
+        loop              = (options.loop || (typeof options.loop === 'undefined')) ? ' loop' : '',
 
         currentThemeClass = theme === THEME_DEFAULT ? 'meplayer-container' : 'meplayer-container-mini',
         containerClass    = `${currentThemeClass} ${hasLrc ? 'meplayer-haslrc' : ''} meplayer-isloading`,
 
         playerHTMLContent = `<div class="${containerClass}">
-                             <audio src=${musicConf.src} preload="${preload}"${loop}></audio>
+                             <audio src="${musicConf.src}" preload="${preload}"${loop}></audio>
                              <div class="meplayer-info">
                              <div class="meplayer-info-cover"><img src=${coverSrc} alt="cd-cover"></div>
                              <div class="meplayer-meta">
@@ -241,9 +241,8 @@ if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
 
 // auto init
 (function () {
-  const players = document.querySelectorAll('.meplayer');
-  for (const player of players) {
-    if (player.dataset.auto !== 'true') continue;
+  const player = document.getElementById('meplayer-auto-init');
+  if (player.dataset.auto === 'true'){
     mePlayer({
       theme: player.dataset.theme,
       music : {
@@ -251,12 +250,12 @@ if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
         title :   player.dataset.title,
         author:   player.dataset.author,
         cover :   player.dataset.cover,
-        lrc   :   player.dataset.lrc,
-        autoplay: player.dataset.autoplay === 'true',
-        loop:     player.dataset.loop === 'true' || (typeof player.dataset.loop === 'undefined'),
-        preload:  player.dataset.preload
+        lrc   :   player.dataset.lrc
       },
-      target: player
+      autoplay: player.dataset.autoplay === 'true',
+      loop    : player.dataset.loop === 'true' || (typeof player.dataset.loop === 'undefined'),
+      preload : player.dataset.preload,
+      target  : player
     });
   }
 })();

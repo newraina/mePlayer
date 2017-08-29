@@ -84,12 +84,12 @@
 	        theme = options.theme || _constants.THEME_DEFAULT,
 	        hasLrc = musicConf.lrc ? true : false,
 	        coverSrc = musicConf.cover || 'https://unsplash.it/78/?random',
-	        preload = musicConf.preload || 'auto',
-	        autoplay = musicConf.autoplay ? ' autoplay' : '',
-	        loop = musicConf.loop || typeof musicConf.loop === 'undefined' ? ' loop' : '',
+	        preload = options.preload || 'auto',
+	        autoplay = options.autoplay ? ' autoplay' : '',
+	        loop = options.loop || typeof options.loop === 'undefined' ? ' loop' : '',
 	        currentThemeClass = theme === _constants.THEME_DEFAULT ? 'meplayer-container' : 'meplayer-container-mini',
 	        containerClass = currentThemeClass + ' ' + (hasLrc ? 'meplayer-haslrc' : '') + ' meplayer-isloading',
-	        playerHTMLContent = '<div class="' + containerClass + '">\n                             <audio src=' + musicConf.src + ' preload="' + preload + '"' + loop + '></audio>\n                             <div class="meplayer-info">\n                             <div class="meplayer-info-cover"><img src=' + coverSrc + ' alt="cd-cover"></div>\n                             <div class="meplayer-meta">\n                             <div class="meplayer-meta-title">' + musicConf.title + '</div>\n                             <div class="meplayer-meta-author">' + musicConf.author + '</div>\n                             <div class="meplayer-meta-time-tick"><span class="meplayer-meta-time-tick-text"></span></div>\n                             </div>\n                             </div>\n                             <canvas class="meplayer-spectrum"></canvas>\n                             <div class="meplayer-lyric"><div class="meplayer-lyric-area"></div></div>\n                             <div class="meplayer-control"><div class="meplayer-control-play"><i class="me-player-font icon-play"></i><i class="me-player-font icon-pause"></i></div></div>\n                             <div class="meplayer-volume-bg"><div class="meplayer-volume"><i class="me-player-font icon-volume"></i><div class="meplayer-volume-progress"></div></div></div>\n                             <div class="meplayer-duration"><i class="me-player-font icon-clock"></i><span class="meplayer-duration-text">loading</span></div>\n                             <div class="meplayer-loadingsign"><i class="me-player-font icon-spin animate-spin"></i>loading</div>\n                             <div class="meplayer-timeline-bg"><div class="meplayer-timeline"><div class="meplayer-timeline-passed"></div></div></div>\n                             </div>';
+	        playerHTMLContent = '<div class="' + containerClass + '">\n                             <audio src="' + musicConf.src + '" preload="' + preload + '"' + loop + '></audio>\n                             <div class="meplayer-info">\n                             <div class="meplayer-info-cover"><img src=' + coverSrc + ' alt="cd-cover"></div>\n                             <div class="meplayer-meta">\n                             <div class="meplayer-meta-title">' + musicConf.title + '</div>\n                             <div class="meplayer-meta-author">' + musicConf.author + '</div>\n                             <div class="meplayer-meta-time-tick"><span class="meplayer-meta-time-tick-text"></span></div>\n                             </div>\n                             </div>\n                             <canvas class="meplayer-spectrum"></canvas>\n                             <div class="meplayer-lyric"><div class="meplayer-lyric-area"></div></div>\n                             <div class="meplayer-control"><div class="meplayer-control-play"><i class="me-player-font icon-play"></i><i class="me-player-font icon-pause"></i></div></div>\n                             <div class="meplayer-volume-bg"><div class="meplayer-volume"><i class="me-player-font icon-volume"></i><div class="meplayer-volume-progress"></div></div></div>\n                             <div class="meplayer-duration"><i class="me-player-font icon-clock"></i><span class="meplayer-duration-text">loading</span></div>\n                             <div class="meplayer-loadingsign"><i class="me-player-font icon-spin animate-spin"></i>loading</div>\n                             <div class="meplayer-timeline-bg"><div class="meplayer-timeline"><div class="meplayer-timeline-passed"></div></div></div>\n                             </div>';
 
 	    target.innerHTML = playerHTMLContent;
 
@@ -292,44 +292,22 @@
 
 	// auto init
 	(function () {
-	    var players = document.querySelectorAll('.meplayer');
-	    var _iteratorNormalCompletion = true;
-	    var _didIteratorError = false;
-	    var _iteratorError = undefined;
-
-	    try {
-	        for (var _iterator = players[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-	            var player = _step.value;
-
-	            if (player.dataset.auto !== 'true') continue;
-	            mePlayer({
-	                theme: player.dataset.theme,
-	                music: {
-	                    src: player.dataset.src,
-	                    title: player.dataset.title,
-	                    author: player.dataset.author,
-	                    cover: player.dataset.cover,
-	                    lrc: player.dataset.lrc,
-	                    autoplay: player.dataset.autoplay === 'true',
-	                    loop: player.dataset.loop === 'true' || typeof player.dataset.loop === 'undefined',
-	                    preload: player.dataset.preload
-	                },
-	                target: player
-	            });
-	        }
-	    } catch (err) {
-	        _didIteratorError = true;
-	        _iteratorError = err;
-	    } finally {
-	        try {
-	            if (!_iteratorNormalCompletion && _iterator.return) {
-	                _iterator.return();
-	            }
-	        } finally {
-	            if (_didIteratorError) {
-	                throw _iteratorError;
-	            }
-	        }
+	    var player = document.getElementById('meplayer-auto-init');
+	    if (player.dataset.auto === 'true') {
+	        mePlayer({
+	            theme: player.dataset.theme,
+	            music: {
+	                src: player.dataset.src,
+	                title: player.dataset.title,
+	                author: player.dataset.author,
+	                cover: player.dataset.cover,
+	                lrc: player.dataset.lrc
+	            },
+	            autoplay: player.dataset.autoplay === 'true',
+	            loop: player.dataset.loop === 'true' || typeof player.dataset.loop === 'undefined',
+	            preload: player.dataset.preload,
+	            target: player
+	        });
 	    }
 	})();
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
