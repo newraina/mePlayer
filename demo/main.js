@@ -13,3 +13,5 @@ mePlayer({
 document.querySelector('button').addEventListener('click', function () {
     mePlayer.toggleTheme();
 });
+
+mePlayer.play();

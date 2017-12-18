@@ -244,12 +244,14 @@
 
 	    function play() {
 	        if (audio.paused) {
+	            utils.addClass(meplayerContainer, 'meplayer-isplaying');
 	            audio.play();
 	        }
 	    }
 
 	    function pause() {
 	        if (!audio.paused) {
+	            utils.removeClass(meplayerContainer, 'meplayer-isplaying');
 	            audio.pause();
 	        }
 	    }
