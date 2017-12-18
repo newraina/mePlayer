@@ -19,6 +19,7 @@ root.mePlayer = function (options) {
         theme             = options.theme || THEME_DEFAULT,
         hasLrc            = musicConf.lrc ? true : false,
         coverSrc          = musicConf.cover || 'https://unsplash.it/78/?random',
+        loop              = musicConf.loop || false,
 
         currentThemeClass = theme === THEME_DEFAULT ? 'meplayer-container' : 'meplayer-container-mini',
         containerClass    = `${currentThemeClass} ${hasLrc ? 'meplayer-haslrc' : ''} meplayer-isloading`,
@@ -81,7 +82,11 @@ root.mePlayer = function (options) {
 
 
     function handleAudioEnd() {
-        utils.removeClass(meplayerContainer, 'meplayer-isplaying');
+        if(loop){
+            audio.play();
+        }else{
+            utils.removeClass(meplayerContainer, 'meplayer-isplaying');
+        }
     }
 
     function handleCanPlayThrough() {
