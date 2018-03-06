@@ -5,6 +5,7 @@
 ![](demo/toggleTheme.gif)
 
 ## 主题说明
+
 ### 默认主题
 - 有歌词时滚动显示歌词，无歌词时显示模拟频谱动画
 - 播放中鼠标悬停在界面上滑动滚轮可调节音量，音量大小用音量条表示
@@ -19,10 +20,11 @@
 ![](demo/mini-theme.gif)
 
 ## 使用方法
+
 - 引入`dist`文件夹中相关文件，或者`npm install meplayer`
 - 初始化
 
-  ```javascript
+```javascript
 mePlayer({
     theme: '可选，不指定时为默认主题，值为"mini"时为迷你版主题',
     music : {
@@ -34,10 +36,12 @@ mePlayer({
     },
     target: '放置播放器的DOM容器，如: .music'
 });
-  ```
+```
+  
 - 运行中可使用`meplayer.play()`和`meplayer.pause()`手动播放暂停
 - `meplayer.toggleTheme()`可一键切换主题
 
 ## 致谢
-- 制作过程中参考了[APlayer](https://github.com/DIYgod/APlayer)的部分代码
-- UI设计参考了[bottom-music-player](https://dribbble.com/shots/2365362-A-or-B-Bottom-music-player-dashboard)
+
+- 制作过程中参考了 [APlayer](https://github.com/DIYgod/APlayer) 的部分代码
+- UI设计参考了 [bottom-music-player](https://dribbble.com/shots/2365362-A-or-B-Bottom-music-player-dashboard)
