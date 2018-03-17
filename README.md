@@ -34,10 +34,11 @@ mePlayer({
         cover : '封面路径',
         lrc   : '歌词字符串：[00:24.600]温柔的晚风\n[00:27.830]轻轻吹过 爱人的梦中\n ...'
     },
-    target: '放置播放器的DOM容器，如: .music'
+    target: '放置播放器的DOM容器，如: .music',
+    autoplay: false // 是否自动播放
 });
 ```
-  
+
 - 运行中可使用`meplayer.play()`和`meplayer.pause()`手动播放暂停
 - `meplayer.toggleTheme()`可一键切换主题
 

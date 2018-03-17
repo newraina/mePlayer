@@ -20,6 +20,7 @@ root.mePlayer = function (options) {
         hasLrc            = musicConf.lrc ? true : false,
         coverSrc          = musicConf.cover || 'https://unsplash.it/78/?random',
         loop              = musicConf.loop || false,
+        autoplay          = options.autoplay,
 
         currentThemeClass = theme === THEME_DEFAULT ? 'meplayer-container' : 'meplayer-container-mini',
         containerClass    = `${currentThemeClass} ${hasLrc ? 'meplayer-haslrc' : ''} meplayer-isloading`,
@@ -61,6 +62,10 @@ root.mePlayer = function (options) {
     }
 
     eventInit();
+    
+    if (autoplay) {
+        handlePlayClick()
+    }
 
     // 重定义meplayer
     root.mePlayer = {
